@@ -28,6 +28,7 @@ services:
     working_dir: /go/src/${APPLICATION}/app
     volumes:
       - ./app:/go/src/${APPLICATION}/app
+      - ~/.ssh:/ssh-localhost
     container_name: ${APPLICATION}-go-cont
   proxy-app:
     build: 
