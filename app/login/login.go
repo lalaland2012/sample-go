@@ -39,7 +39,7 @@ func (h *HTTPHandler) Login(w http.ResponseWriter, r *http.Request) {
 	}
 	err := h.ResponseHTML(w, r, templateData{
 		Msg: msg,
-	}, "layout/base.tmpl", "login/login.tmpl", "layout/style.tmpl", "layout/js.tmpl")
+	}, "layout/base", "login/login", "layout/style", "layout/js")
 	if err != nil {
 		_ = h.StatusServerError(w, r)
 	}

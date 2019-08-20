@@ -31,7 +31,7 @@ func (h *HTTPHandler) HelloWorld(w http.ResponseWriter, r *http.Request) {
 		err := h.ResponseHTML(w, r, templateData{
 			Name: userName,
 			Pass: pass,
-		}, "layout/base.tmpl", "hello/hello_world.tmpl")
+		}, "layout/base", "hello/hello_world")
 		if err != nil {
 			_ = h.StatusServerError(w, r)
 		}

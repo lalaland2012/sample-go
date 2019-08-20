@@ -52,7 +52,7 @@ func (h *ApplicationHTTPHandler) ResponseHTML(w http.ResponseWriter, r *http.Req
 	}
 	var tmpls []string
 	for _, templateFile := range templateFiles {
-		tmpls = append(tmpls, templateDir+"/"+templateFile)
+		tmpls = append(tmpls, templateDir+"/"+templateFile+".tmpl")
 	}
 
 	return executeTemplate(w, d, tmpls...)
