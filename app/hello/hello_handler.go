@@ -3,6 +3,8 @@ package hello
 import (
 	"net/http"
 	"sample/app/shared/handler"
+
+	"github.com/gorilla/sessions"
 )
 
 // HTTPHandler struct.
@@ -12,15 +14,29 @@ type HTTPHandler struct {
 
 type templateData struct {
 	Name string
+	Pass string
 }
+
+var (
+	key   = []byte("super-secret-key")
+	store = sessions.NewCookieStore(key)
+)
 
 // HelloWorld hello word page
 func (h *HTTPHandler) HelloWorld(w http.ResponseWriter, r *http.Request) {
-	err := h.ResponseHTML(w, r, "hello/hello_world", templateData{
-		Name: "Duy",
-	})
-	if err != nil {
-		_ = h.StatusServerError(w, r)
+	session, _ := store.Get(r, "user")
+	userName, existUserName := session.Values["userName"].(string)
+	pass, existPass := session.Values["pass"].(string)
+	if existUserName && existPass {
+		err := h.ResponseHTML(w, r, "hello/hello_world", templateData{
+			Name: userName,
+			Pass: pass,
+		})
+		if err != nil {
+			_ = h.StatusServerError(w, r)
+		}
+	} else {
+		http.Redirect(w, r, "/login", 302)
 	}
 }
 

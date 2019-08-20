@@ -5,6 +5,7 @@ import (
 
 	"sample/app/hello"
 	"sample/app/infrastructure"
+	"sample/app/login"
 	"sample/app/shared/handler"
 
 	"github.com/go-chi/chi"
@@ -55,8 +56,12 @@ func (r *Router) SetupHandler() {
 	// uh := user.NewHTTPHandler(br, bu, bh, r.SQLHandler, r.CacheHandler)
 
 	hw := hello.NewHTTPHandler(ah)
+	lg := login.NewHTTPHandler(ah)
 
 	r.Mux.Route("/", func(cr chi.Router) {
 		cr.Get("/hello", hw.HelloWorld)
+		cr.Get("/login", lg.Login)
+		cr.Post("/login", lg.LoginHandler)
+		cr.Get("/logout", lg.LogoutHandler)
 	})
 }
