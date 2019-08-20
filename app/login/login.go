@@ -17,11 +17,6 @@ type templateData struct {
 	Msg string
 }
 
-type user struct {
-	userName string
-	pass     string
-}
-
 var (
 	// key must be 16, 24 or 32 bytes long (AES-128, AES-192 or AES-256)
 	key   = []byte("super-secret-key")
@@ -42,15 +37,15 @@ func (h *HTTPHandler) Login(w http.ResponseWriter, r *http.Request) {
 		sesValidate.Save(r, w)
 		msg = flashes[0].(string)
 	}
-	err := h.ResponseHTML(w, r, "login/login", templateData{
+	err := h.ResponseHTML(w, r, templateData{
 		Msg: msg,
-	})
+	}, "layout/base.tmpl", "login/login.tmpl", "layout/style.tmpl", "layout/js.tmpl")
 	if err != nil {
 		_ = h.StatusServerError(w, r)
 	}
 }
 
-// Post Login
+// LoginHandler post Login
 func (h *HTTPHandler) LoginHandler(w http.ResponseWriter, r *http.Request) {
 	sesValidate, _ := store.Get(r, "validate")
 	userName := r.FormValue("name")
@@ -77,6 +72,7 @@ func (h *HTTPHandler) LoginHandler(w http.ResponseWriter, r *http.Request) {
 
 }
 
+//LogoutHandler handler logout
 func (h *HTTPHandler) LogoutHandler(w http.ResponseWriter, r *http.Request) {
 	session, _ := store.Get(r, "user")
 	session.Options.MaxAge = -1
@@ -84,7 +80,7 @@ func (h *HTTPHandler) LogoutHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/login", 302)
 }
 
-// Check user
+// CheckUser check user is valid
 func CheckUser(userName, pass string) bool {
 	uName, pwd, isValid := "manhnd", "123456", false
 	if uName == userName && pwd == pass {

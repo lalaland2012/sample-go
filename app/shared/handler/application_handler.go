@@ -4,7 +4,6 @@ import (
 	"html/template"
 	"net/http"
 	"os"
-	"path/filepath"
 
 	"github.com/sirupsen/logrus"
 )
@@ -14,6 +13,7 @@ var (
 	commonDir      = templateDir + "/common/"
 	templateHeader = "header.html"
 	templateFooter = "footer.html"
+	mainTemplate   = "base"
 )
 
 // ApplicationHTTPHandler base handler struct.
@@ -40,7 +40,7 @@ type ApplicationHTTPHandlerInterface interface {
 }
 
 // ResponseHTML responses status code 200 and html.
-func (h *ApplicationHTTPHandler) ResponseHTML(w http.ResponseWriter, r *http.Request, templateFile string, data interface{}) error {
+func (h *ApplicationHTTPHandler) ResponseHTML(w http.ResponseWriter, r *http.Request, data interface{}, templateFiles ...string) error {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
 	w.WriteHeader(http.StatusOK)
 
@@ -50,8 +50,12 @@ func (h *ApplicationHTTPHandler) ResponseHTML(w http.ResponseWriter, r *http.Req
 		Common: commonTemplate,
 		Data:   data,
 	}
+	var tmpls []string
+	for _, templateFile := range templateFiles {
+		tmpls = append(tmpls, templateDir+"/"+templateFile)
+	}
 
-	return executeTemplate(w, templateDir+"/"+templateFile+".html", d)
+	return executeTemplate(w, d, tmpls...)
 }
 
 // ResponseErrorHTML calls utils.ResponseHTML.
@@ -70,18 +74,15 @@ func (h *ApplicationHTTPHandler) ResponseErrorHTML(w http.ResponseWriter, r *htt
 		Common: commonTemplate,
 	}
 	// set common template.
-	return executeTemplate(w, templateDir+"/error/error.html", d)
+	return executeTemplate(w, d, templateDir+"/error/error.html")
 }
 
 // executeTemplate executes template.
-func executeTemplate(w http.ResponseWriter, templateFile string, data interface{}) error {
-	funcMap := map[string]interface{}{"makeSlice": makeSlice}
-	tname := filepath.Base(templateFile)
-	tmpl := template.New(tname).Funcs(template.FuncMap(funcMap))
-	tmpl = template.Must(tmpl.ParseFiles(
-		templateFile,
+func executeTemplate(w http.ResponseWriter, data interface{}, templateFile ...string) error {
+	tmpl := template.Must(template.ParseFiles(
+		templateFile...,
 	))
-	err := tmpl.Execute(w, data)
+	err := tmpl.ExecuteTemplate(w, mainTemplate, data)
 	if err != nil {
 		panic(err)
 	}

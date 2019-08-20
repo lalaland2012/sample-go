@@ -28,10 +28,10 @@ func (h *HTTPHandler) HelloWorld(w http.ResponseWriter, r *http.Request) {
 	userName, existUserName := session.Values["userName"].(string)
 	pass, existPass := session.Values["pass"].(string)
 	if existUserName && existPass {
-		err := h.ResponseHTML(w, r, "hello/hello_world", templateData{
+		err := h.ResponseHTML(w, r, templateData{
 			Name: userName,
 			Pass: pass,
-		})
+		}, "layout/base.tmpl", "hello/hello_world.tmpl")
 		if err != nil {
 			_ = h.StatusServerError(w, r)
 		}
