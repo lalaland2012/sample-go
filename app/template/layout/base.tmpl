@@ -10,13 +10,13 @@
   {{block "style" .}} {{end}}
   {{block "style-inline" .}} {{end}}
 </head>
-<body class="hold-transition login-page">
+<body class="{{block "class-page" .}}{{end}}">
 {{block "content" .}} {{end}}
 
 {{block "js" .}} {{end}}
 
 {{block "js-inline" .}} {{end}}
-</body>
+</body>      
 </html>
 
 {{end}}

@@ -74,7 +74,7 @@ func (h *ApplicationHTTPHandler) ResponseErrorHTML(w http.ResponseWriter, r *htt
 		Common: commonTemplate,
 	}
 	// set common template.
-	return executeTemplate(w, d, templateDir+"/error/error.html")
+	return executeTemplate(w, d, templateDir+"/layout/base.tmpl", templateDir+"/error/error.tmpl")
 }
 
 // executeTemplate executes template.
