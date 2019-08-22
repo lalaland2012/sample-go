@@ -51,17 +51,6 @@ func (h *HTTPHandler) LogoutHandler(w http.ResponseWriter, r *http.Request) {
 	http.Redirect(w, r, "/login", 302)
 }
 
-// CheckUser check user is valid
-func CheckUser(userName, pass string) bool {
-	uName, pwd, isValid := "manhnd", "123456", false
-	if uName == userName && pwd == pass {
-		isValid = true
-	} else {
-		isValid = false
-	}
-	return isValid
-}
-
 // NewHTTPHandler responses new HTTPHandler instance.
 func NewHTTPHandler(ah *handler.ApplicationHTTPHandler) *HTTPHandler {
 	// item set.
