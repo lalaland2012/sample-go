@@ -7,6 +7,7 @@ import (
 	"sample/app/infrastructure"
 	"sample/app/login"
 	"sample/app/shared/handler"
+	middlewareAuth "sample/app/shared/middleware"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
@@ -59,7 +60,10 @@ func (r *Router) SetupHandler() {
 	lg := login.NewHTTPHandler(ah)
 
 	r.Mux.Route("/", func(cr chi.Router) {
-		cr.Get("/hello", hw.HelloWorld)
+		cr.Route("/hello", func(cr chi.Router) {
+			cr.Use(middlewareAuth.VerifyAuth)
+			cr.Get("/", hw.HelloWorld)
+		})
 		cr.Get("/login", lg.Login)
 		cr.Post("/login", lg.LoginHandler)
 		cr.Get("/logout", lg.LogoutHandler)

@@ -50,3 +50,19 @@ func JwtAuth(logger *infrastructure.Logger) func(http.Handler) http.Handler {
 		return http.HandlerFunc(fn)
 	}
 }
+
+// VerifyAuth confirm user is login
+func VerifyAuth(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		user := auth.User(w, r)
+		if len(user) == 0 {
+			http.Redirect(w, r, "/login", 302)
+			return
+		}
+		if !auth.Attempt(user["userName"], user["pass"]) {
+			http.Redirect(w, r, "/login", 302)
+			return
+		}
+		h.ServeHTTP(w, r)
+	})
+}
