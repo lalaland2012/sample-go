@@ -107,3 +107,7 @@
 [[constraint]]
   name = "github.com/urfave/cli"
   version = "1.20.0"
+
+[[constraint]]
+  name = "github.com/gorilla/sessions"
+  version = "1.2.0"

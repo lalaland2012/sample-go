@@ -17,7 +17,7 @@ type templateData struct {
 // HelloWorld hello word page
 func (h *HTTPHandler) HelloWorld(w http.ResponseWriter, r *http.Request) {
 	err := h.ResponseHTML(w, r, "hello/hello_world", templateData{
-		Name: "Duy",
+		Name: "tttt",
 	})
 	if err != nil {
 		_ = h.StatusServerError(w, r)

@@ -10,8 +10,8 @@ ENV GOPATH /go
 ENV PATH $GOPATH/bin:$PATH
 RUN mkdir -p "$GOPATH/src" "$GOPATH/bin" && chmod -R 777 "$GOPATH"
 
-RUN apk --update add --no-cache bash gcc musl-dev git mercurial openssh curl
-  # rm -rf /var/lib/apt/lists/* && \
+RUN apk --update add --no-cache bash gcc musl-dev git mercurial openssh curl && \
+  rm -rf /var/lib/apt/lists/*
   # rm /var/cache/apk/*
 
 # SSH for private repository
