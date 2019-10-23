@@ -1,0 +1,110 @@
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link src="../../static/profile/bootstrap4.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="../../static/profile/bootstrap4.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<head>
+  <title>Profile</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../../static/profile/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="../../static/profile/bootstrap.min.js"></script>
+  <script src="../../static/profile/main.js"></script>
+</head>
+
+
+<hr>
+<div class="container bootstrap snippet">
+    <div class="row">
+  		<div class="col-sm-10"><h1>Profile</h1></div>
+    </div>
+    <div class="row">
+  		<div class="col-sm-3 col-md-12">
+              
+        <form class="form" action="/profile" method="post" id="registrationForm" enctype="multipart/form-data">
+          <div class="form-group">
+      <div class="text-center col-md-3">
+        <img src ="{{.Data.Image}}.png" class="avatar img-circle img-thumbnail" alt="avatar">
+        <h6>Upload a different photo...</h6>
+        <input type="file" name="myFile" id= "myFile" class="text-center center-block file-upload">
+      </div>
+</hr><br>
+    </div><!--/col-3-->
+    	<div class="col-sm-6 col-md-9">
+<div class="tab-content">
+        <div class="tab-pane active" id="home">
+                <hr>
+</div>
+                      <div class="form-group">
+                        <div class="col-xs-6 col-md-offset-0">
+                          <label for="name">
+                          <h4>Name</h4>
+                          </label>
+                          <input type="text" class="form-control" name="name" id="name" value="{{.Data.Name}}">
+                        </div>
+                          
+                          <div class="col-xs-6 col-md-offset-0">
+                            <label for="age"><h4>Age</h4></label>
+                            <input type="text" class="form-control" name="age" id="age" value="{{.Data.Age}}">
+                        </div>
+             </div>
+          
+        <div class="form-group">
+                          
+                          <div class="col-xs-6 col-md-offset-0">
+                              <label for="phone"><h4>Phone</h4></label>
+                            <input type="text" class="form-control" name="phone" id="phone" value="{{.Data.Phone}}">
+                        </div>
+        </div>
+          
+                    
+                      <div class="col-xs-6 col-md-offset-0">
+                        <label for="password">
+                        <h4>Password</h4>
+                        </label>
+                        <input type="password" class="form-control" name="password" id="password" value="{{.Data.Password}}">
+                      </div>
+                      <div class="form-group">
+                          
+                          <div class="col-xs-6">
+                              <label for="email"><h4>Email</h4></label>
+                            <input type="email" class="form-control" name="email" id="email" value="{{.Data.Email}}">
+                        </div>
+        </div>
+                      <div class="form-group">
+                          
+                          <div class="col-xs-6">
+                              <label for="email"><h4>Location</h4></label>
+                              <input type="text" class="form-control" name="location" id="location" value="{{.Data.Location}}">
+                          </div>
+                      </div>
+                      <div class="form-group"> </div>
+                      
+        <div class="form-group">
+          <div class="col-xs-12">
+                                <br>
+                              	<button class="btn btn-lg btn-success" type="submit"> Save</button>
+       	  </div>
+        </div>
+      </form>
+        {{if .Data.MessengerSuccess}}
+        <div class="alert alert-success">
+         {{ .Data.MessengerSuccess}}
+        </div>
+        {{end}}
+        {{if .Data.Messenger}}
+        <p class="text-danger">{{.Data.Messenger}}</p>
+        {{end}}
+              	
+                <form action="/logout" method="POST">
+                  <div class="text-center">  
+                      <button type="submit" class="btn btn-dark">Log Out</button>
+                  </div>
+              </form>
+              <hr>
+          </div>
+          </div>
+      </div>
+    </div>
+                                                      
